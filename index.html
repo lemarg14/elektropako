@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Elektropako · Electricista en Sevilla · Instalaciones, reparaciones y boletines</title>
+<meta name="description" content="Elektropako, empresa instaladora y certificadora en Sevilla (Av. de la Barzola, 22). Instalaciones, reparaciones, boletines eléctricos y certificación eléctrica para camperizar furgonetas. Presupuesto sin compromiso.">
+<meta name="theme-color" content="#0A0B0D">
+<meta property="og:title" content="Elektropako · Electricista en Sevilla">
+<meta property="og:description" content="Instalaciones, reparaciones, boletines y certificación eléctrica de campers. Presupuesto sin compromiso.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0A0B0D; --ink-2:#121418; --ink-3:#1A1D22;
+  --paper:#F3F1EA; --muted:#8E9096; --line:rgba(243,241,234,.12);
+  --volt:#FFD84A; --volt-glow:rgba(255,216,74,.35); --copper:#D97B3C;
+  --ok:#46E08A; --off:#FF5A4E;
+  --ease:cubic-bezier(.16,1,.3,1); --pop:cubic-bezier(.3,1.6,.5,1);
+  --display:"Archivo",system-ui,sans-serif; --body:"Inter Tight",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+  --pad:clamp(20px,5vw,72px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--ink);color:var(--paper);-webkit-text-size-adjust:100%}
+body{font-family:var(--body);font-size:17px;line-height:1.55;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--volt);outline-offset:3px;border-radius:6px}
+img,svg{display:block;max-width:100%}
+.mono{font-family:var(--mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase}
+.wrap{padding:0 var(--pad);max-width:1440px;margin:0 auto}
+.grain{pointer-events:none;position:fixed;inset:0;z-index:90;opacity:.06;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* Preloader */
+.pre{position:fixed;inset:0;z-index:100;background:var(--ink);display:none;place-items:center}
+.js .pre{display:grid}
+.pre__v{font-family:var(--display);font-stretch:62%;font-weight:900;font-size:clamp(72px,18vw,220px);line-height:1;color:var(--paper)}
+.pre__v small{font-size:.3em;color:var(--volt);margin-left:.1em}
+.pre__bar{position:absolute;left:var(--pad);right:var(--pad);bottom:48px;height:2px;background:var(--line)}
+.pre__bar i{display:block;height:100%;width:0;background:var(--volt);box-shadow:0 0 18px var(--volt)}
+
+/* Nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;padding:calc(14px + env(safe-area-inset-top)) var(--pad) 14px;display:flex;align-items:center;justify-content:space-between;gap:16px;transition:background .4s var(--ease),backdrop-filter .4s}
+.nav.is-solid{background:rgba(10,11,13,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:800;font-stretch:110%;font-size:1.15rem;letter-spacing:-.02em}
+.logo svg{width:26px;height:26px}
+.nav__links{display:flex;gap:28px;font-size:.92rem;color:var(--muted)}
+.nav__links a:hover{color:var(--paper)}
+.status{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.status i{width:8px;height:8px;border-radius:50%;background:var(--muted)}
+.status.open i{background:var(--ok);box-shadow:0 0 0 4px rgba(70,224,138,.18)}
+.status.closed i{background:var(--off)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 22px;border-radius:999px;font-weight:600;font-size:.98rem;transition:transform .25s var(--pop),background .25s,color .25s,box-shadow .25s;white-space:nowrap}
+.btn--volt{background:var(--volt);color:var(--ink)}
+.btn--volt:hover{box-shadow:0 0 0 6px var(--volt-glow),0 10px 40px var(--volt-glow)}
+.btn--ghost{border:1px solid rgba(243,241,234,.28)}
+.btn--ghost:hover{background:var(--paper);color:var(--ink)}
+.btn svg{width:18px;height:18px}
+@media (max-width:900px){.nav__links,.nav .status{display:none}}
+
+/* Hero */
+.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;padding-top:120px;padding-bottom:clamp(40px,8vh,90px);overflow:hidden;isolation:isolate}
+.hero__spot{position:absolute;inset:0;z-index:-1;background:radial-gradient(520px circle at var(--mx,70%) var(--my,40%),rgba(255,216,74,.13),transparent 60%)}
+.hero__grid{position:absolute;inset:0;z-index:-2;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse at 70% 40%,#000 10%,transparent 70%);opacity:.5}
+.hero__wire{position:absolute;inset:0;z-index:-1;width:100%;height:100%;pointer-events:none}
+.hero__wire path{fill:none;stroke:var(--copper);stroke-width:2.5;stroke-linecap:round}
+.hero__wire .live{stroke:var(--volt);stroke-width:3;filter:drop-shadow(0 0 6px var(--volt))}
+.hero__bulb{position:absolute;right:clamp(10px,9vw,160px);top:clamp(70px,12vh,130px);width:clamp(140px,22vw,300px);z-index:-1}
+.bulb-glass{fill:rgba(243,241,234,.04);stroke:rgba(243,241,234,.35);stroke-width:2}
+.bulb-fil{fill:none;stroke:#6b5a2a;stroke-width:3;stroke-linecap:round;transition:stroke .3s}
+.bulb-halo{fill:var(--volt);opacity:0;transition:opacity .8s var(--ease)}
+.lit .bulb-fil{stroke:var(--volt);filter:drop-shadow(0 0 8px var(--volt))}
+.lit .bulb-halo{opacity:.22}
+.lit .bulb-glass{fill:rgba(255,216,74,.12)}
+.hero__eyebrow{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin-bottom:26px;color:var(--muted)}
+.hero h1{font-family:var(--display);font-weight:850;font-stretch:72%;font-size:clamp(58px,12.5vw,196px);line-height:.86;letter-spacing:-.03em;text-transform:uppercase}
+.hero h1 .ln{display:block;overflow:hidden;padding-bottom:.04em}
+.hero h1 .ln span{display:inline-block}
+.hero h1 em{font-style:italic;font-weight:300;font-stretch:100%;color:var(--volt);text-transform:none;letter-spacing:-.04em}
+.hero__bottom{display:grid;grid-template-columns:1.2fr 1fr;gap:32px;align-items:end;margin-top:36px}
+.hero__lead{max-width:520px;color:#c9c8c2;font-size:1.08rem}
+.hero__ctas{display:flex;flex-wrap:wrap;gap:12px;justify-content:flex-end}
+.proof{display:flex;align-items:center;gap:10px;margin-top:18px;font-size:.92rem;color:var(--muted)}
+.stars{color:var(--volt);letter-spacing:2px}
+@media (max-width:820px){.hero__bottom{grid-template-columns:1fr}.hero__ctas{justify-content:flex-start}.hero__bulb{opacity:.5;width:110px;top:84px;right:14px}.hero__eyebrow{max-width:70%}}
+
+/* Marquee */
+.marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:20px 0;background:var(--ink-2)}
+.marquee__track{display:flex;gap:48px;width:max-content;animation:mq 36s linear infinite}
+.marquee__track span{font-family:var(--display);font-stretch:80%;font-weight:700;font-size:clamp(22px,3vw,36px);text-transform:uppercase;white-space:nowrap;display:flex;align-items:center;gap:48px}
+.marquee__track span::after{content:"";width:14px;height:22px;background:var(--volt);clip-path:polygon(60% 0,0 58%,45% 58%,35% 100%,100% 40%,55% 40%)}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* Sections */
+section{position:relative}
+.sec{padding:clamp(80px,13vh,160px) 0}
+.sec__head{display:grid;grid-template-columns:1fr 1.3fr;gap:32px;margin-bottom:clamp(36px,6vh,64px);align-items:end}
+.sec__head h2{font-family:var(--display);font-weight:800;font-stretch:78%;font-size:clamp(40px,6.4vw,96px);line-height:.92;letter-spacing:-.025em;text-transform:uppercase}
+.sec__head h2 em{font-style:italic;font-weight:300;font-stretch:100%;text-transform:none;color:var(--volt)}
+.sec__head p{color:#bdbcb6;max-width:520px;justify-self:end}
+.sec__head .mono{color:var(--volt);display:block;margin-bottom:16px}
+@media (max-width:820px){.sec__head{grid-template-columns:1fr}.sec__head p{justify-self:start}}
+
+/* Cuadro */
+.panelbox{display:grid;grid-template-columns:1.35fr 1fr;gap:clamp(20px,3vw,40px);align-items:stretch}
+@media (max-width:980px){.panelbox{grid-template-columns:1fr}}
+.house{background:var(--ink-2);border:1px solid var(--line);border-radius:24px;padding:clamp(14px,2vw,28px);position:relative;overflow:hidden}
+.house svg{width:100%;height:auto}
+.room-bg{fill:#0e1013;transition:fill .6s var(--ease)}
+.room-light{opacity:0;transition:opacity .7s var(--ease)}
+.room.on .room-bg{fill:#1d1a10}
+.room.on .room-light{opacity:1}
+.room .ico{fill:none;stroke:#3a3d44;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:stroke .6s var(--ease)}
+.room.on .ico{stroke:var(--paper)}
+.room .lamp{fill:#2a2c31;transition:fill .3s}
+.room.on .lamp{fill:var(--volt)}
+.room text{font-family:var(--mono);font-size:11px;letter-spacing:.1em;fill:#4a4d55;text-transform:uppercase;transition:fill .5s}
+.room.on text{fill:var(--volt)}
+.house-frame{fill:none;stroke:rgba(243,241,234,.3);stroke-width:2}
+.house.trip{animation:shake .4s}
+@keyframes shake{20%{transform:translateX(-4px)}40%{transform:translateX(4px)}60%{transform:translateX(-2px)}80%{transform:translateX(2px)}}
+.house__hint{display:block;margin-top:12px;color:var(--muted)}
+
+.cuadro{background:linear-gradient(180deg,#d9d6cc,#c7c3b7);color:var(--ink);border-radius:24px;padding:22px;display:flex;flex-direction:column;gap:18px;box-shadow:inset 0 2px 0 rgba(255,255,255,.6),0 30px 80px rgba(0,0,0,.45)}
+.cuadro__top{display:flex;justify-content:space-between;align-items:center}
+.cuadro__top .mono{color:#555}
+.rail{background:#2b2e33;border-radius:12px;padding:14px;display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.brk{display:flex;flex-direction:column;align-items:center;gap:8px}
+.brk__body{width:100%;aspect-ratio:.52;max-height:150px;background:linear-gradient(180deg,#f4f2ec,#dedbd2);border-radius:6px;display:grid;place-items:center;position:relative;box-shadow:inset 0 -3px 0 rgba(0,0,0,.12)}
+.brk__slot{width:46%;height:52%;background:#1c1e22;border-radius:5px;position:relative;overflow:hidden}
+.brk__lever{position:absolute;left:8%;right:8%;height:46%;bottom:4%;background:#3a3d44;border-radius:4px;transition:bottom .35s var(--pop),background .3s}
+.brk[aria-checked="true"] .brk__lever{bottom:50%;background:var(--ok)}
+.brk__led{position:absolute;top:8%;width:7px;height:7px;border-radius:50%;background:#bbb}
+.brk[aria-checked="true"] .brk__led{background:var(--ok);box-shadow:0 0 8px var(--ok)}
+.brk--main .brk__lever{background:#7a2a22}
+.brk--main[aria-checked="true"] .brk__lever{background:var(--off)}
+.brk__lbl{font-family:var(--mono);font-size:.6rem;letter-spacing:.06em;color:#cfd0d3;text-align:center;line-height:1.2;text-transform:uppercase}
+.brk--test .brk__body{background:#e9e6dd}
+.testbtn{width:60%;aspect-ratio:1;border-radius:50%;background:#d5bf35;box-shadow:inset 0 -3px 0 rgba(0,0,0,.25);font-family:var(--mono);font-size:.55rem;font-weight:600;color:#2a2400;display:grid;place-items:center;transition:transform .15s}
+.testbtn:active{transform:scale(.9)}
+.info{background:var(--ink);color:var(--paper);border-radius:16px;padding:20px;min-height:190px;display:flex;flex-direction:column;gap:10px}
+.info h3{font-family:var(--display);font-stretch:85%;font-weight:800;font-size:1.6rem;line-height:1;text-transform:uppercase}
+.info p{color:#bdbcb6;font-size:.95rem}
+.info .mono{color:var(--volt)}
+.info a{margin-top:auto;align-self:flex-start;color:var(--volt);font-weight:600;border-bottom:1px solid currentColor}
+
+/* Services list */
+.svc{border-top:1px solid var(--line)}
+.svc__item{display:grid;grid-template-columns:80px 1.2fr 1fr auto;gap:24px;align-items:center;padding:32px 0;border-bottom:1px solid var(--line);position:relative;transition:padding .5s var(--ease)}
+.svc__item::before{content:"";position:absolute;left:0;bottom:-1px;height:1px;width:0;background:var(--volt);transition:width .8s var(--ease)}
+.svc__item:hover::before{width:100%}
+.svc__item:hover{padding-left:14px}
+.svc__n{font-family:var(--mono);color:var(--muted)}
+.svc__t{font-family:var(--display);font-stretch:80%;font-weight:750;font-size:clamp(28px,3.6vw,52px);line-height:.95;text-transform:uppercase;letter-spacing:-.02em}
+.svc__d{color:#bdbcb6;font-size:.98rem}
+.svc__a{width:52px;height:52px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;transition:background .3s,color .3s,transform .4s var(--ease)}
+.svc__item:hover .svc__a{background:var(--volt);color:var(--ink);transform:rotate(-45deg)}
+@media (max-width:820px){.svc__item{grid-template-columns:1fr auto;gap:10px 16px}.svc__n{grid-column:1/-1}.svc__d{grid-column:1/2}.svc__a{grid-row:2/4;grid-column:2}}
+
+/* Camper */
+.camper{background:var(--paper);color:var(--ink)}
+.camper .sec__head p{color:#4a4b4f}
+.camper .sec__head .mono{color:var(--copper)}
+.camper .sec__head h2 em{color:var(--copper)}
+.vanbox{display:grid;grid-template-columns:1.5fr 1fr;gap:clamp(20px,3vw,40px)}
+@media (max-width:980px){.vanbox{grid-template-columns:1fr}}
+.van{background:#e6e3da;border-radius:24px;padding:clamp(14px,2.5vw,32px);position:relative;display:flex;flex-direction:column;justify-content:center}
+.van svg{width:100%;height:auto;overflow:visible}
+.van .body{fill:#f7f5ef;stroke:var(--ink);stroke-width:2.5}
+.van .glass{fill:#cfd6db;stroke:var(--ink);stroke-width:2}
+.van .wheel{fill:var(--ink)}
+.van .hub{fill:#9a9ca0}
+.van .part{opacity:.18;transition:opacity .5s var(--ease),transform .6s var(--ease);transform-box:fill-box;transform-origin:center}
+.van .part.on{opacity:1}
+.van .cable{fill:none;stroke:var(--copper);stroke-width:2.5;stroke-dasharray:6 6;opacity:0;transition:opacity .4s}
+.van .cable.on{opacity:1;animation:flow 1s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-24}}
+.van__legend{display:block;margin-top:12px;color:#6b6c70}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:60px;padding:12px 18px;border:1.5px solid #cfcbbf;border-radius:16px;text-align:left;transition:border-color .3s,background .3s,transform .3s var(--pop)}
+.opt:hover{border-color:var(--ink)}
+.opt[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.opt b{font-weight:600}
+.opt small{display:block;color:#7a7b7f;font-size:.82rem}
+.opt[aria-pressed="true"] small{color:#a9aaae}
+.opt i{flex:none;width:26px;height:26px;border-radius:50%;border:1.5px solid currentColor;display:grid;place-items:center;font-style:normal;font-size:.9rem;transition:transform .3s var(--pop)}
+.opt[aria-pressed="true"] i{background:var(--volt);color:var(--ink);border-color:var(--volt);transform:rotate(45deg)}
+.vansum{margin-top:8px;padding:18px;border-radius:16px;background:#e6e3da;font-size:.92rem;color:#4a4b4f}
+.vansum strong{color:var(--ink)}
+.camper .btn--volt{margin-top:12px;width:100%}
+
+/* Process */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;position:relative;padding-top:40px}
+.steps__wire{position:absolute;top:12px;left:0;right:0;height:2px;background:var(--line)}
+.steps__wire i{display:block;height:100%;width:100%;transform-origin:left;transform:scaleX(0);background:var(--volt);box-shadow:0 0 12px var(--volt)}
+.no-js .steps__wire i,.rm .steps__wire i{transform:none}
+.step{position:relative}
+.step::before{content:"";position:absolute;top:-34px;left:0;width:14px;height:14px;border-radius:50%;background:var(--ink);border:2px solid var(--volt)}
+.step .mono{color:var(--volt)}
+.step h3{font-family:var(--display);font-stretch:85%;font-weight:800;font-size:1.7rem;text-transform:uppercase;line-height:1;margin:10px 0}
+.step p{color:#bdbcb6;font-size:.95rem}
+@media (max-width:820px){.steps{grid-template-columns:1fr;padding-top:0;padding-left:34px}.steps__wire{top:0;bottom:0;left:6px;right:auto;width:2px;height:auto}.steps__wire i{transform-origin:top;transform:scaleY(0);width:100%;height:100%}.step::before{top:6px;left:-34px}}
+
+/* Rating */
+.rating{display:grid;grid-template-columns:auto 1fr;gap:clamp(24px,5vw,80px);align-items:center;padding:clamp(36px,6vw,72px);border:1px solid var(--line);border-radius:28px;background:radial-gradient(600px circle at 0% 0%,rgba(255,216,74,.09),transparent 60%),var(--ink-2)}
+.rating__big{font-family:var(--display);font-stretch:62%;font-weight:900;font-size:clamp(120px,20vw,260px);line-height:.8;color:var(--volt)}
+.rating__big small{font-size:.28em;color:var(--paper);font-stretch:100%}
+.rating h3{font-family:var(--display);font-stretch:85%;font-weight:800;font-size:clamp(28px,3.4vw,48px);line-height:1;text-transform:uppercase;margin:12px 0 14px}
+.rating p{color:#bdbcb6;max-width:520px}
+.rating .btn{margin-top:22px}
+@media (max-width:720px){.rating{grid-template-columns:1fr}}
+
+/* Quote builder */
+.qb{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,3vw,40px)}
+@media (max-width:900px){.qb{grid-template-columns:1fr}}
+.qb__card{border:1px solid var(--line);border-radius:24px;padding:clamp(20px,3vw,36px);background:var(--ink-2)}
+.qb fieldset{border:0;margin-bottom:24px}
+.qb legend{font-family:var(--mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{min-height:44px;padding:0 16px;border-radius:999px;border:1px solid rgba(243,241,234,.22);font-size:.94rem;transition:background .25s,color .25s,border-color .25s,transform .25s var(--pop)}
+.chip:hover{border-color:var(--paper)}
+.chip[aria-pressed="true"]{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.qb textarea{width:100%;min-height:96px;border-radius:14px;border:1px solid rgba(243,241,234,.22);background:var(--ink);color:var(--paper);font:inherit;padding:14px;resize:vertical}
+.preview{font-family:var(--mono);font-size:.85rem;line-height:1.6;white-space:pre-wrap;background:#0b3b2a;color:#d8f5e6;border-radius:18px 18px 18px 4px;padding:18px;margin:16px 0 22px;position:relative}
+.preview::before{content:"WhatsApp · vista previa";display:block;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:#7fd6a8;margin-bottom:8px}
+.qb .btn{width:100%}
+.qb__alt{display:flex;gap:10px;margin-top:10px}
+.qb__alt .btn{flex:1}
+
+/* Info */
+.infos{display:grid;grid-template-columns:1fr 1.3fr;gap:clamp(20px,3vw,40px)}
+@media (max-width:900px){.infos{grid-template-columns:1fr}}
+.infos dl{display:grid;gap:22px}
+.infos dt{font-family:var(--mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.infos dd{font-size:1.15rem}
+.infos dd a{border-bottom:1px solid var(--line)}
+.infos dd a:hover{border-color:var(--volt)}
+.tbc{font-family:var(--mono);font-size:.66rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-left:6px}
+.copy{margin-left:8px;font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--volt);padding:6px 10px;border:1px solid rgba(255,216,74,.4);border-radius:999px;min-height:32px}
+.map{border-radius:24px;overflow:hidden;border:1px solid var(--line);min-height:360px;background:var(--ink-2)}
+.map iframe{width:100%;height:100%;min-height:360px;border:0;filter:invert(.9) hue-rotate(180deg) saturate(.6) contrast(.9)}
+
+/* FAQ */
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:26px 0;cursor:pointer;font-family:var(--display);font-stretch:90%;font-weight:700;font-size:clamp(20px,2.2vw,28px)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary span{flex:none;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;transition:transform .4s var(--ease),background .3s}
+.faq details[open] summary span{transform:rotate(45deg);background:var(--volt);color:var(--ink)}
+.faq .ans{color:#bdbcb6;padding:0 0 26px;max-width:760px}
+
+/* CTA band */
+.band{padding:clamp(80px,14vh,160px) 0;text-align:center;overflow:hidden}
+.band h2{font-family:var(--display);font-weight:900;font-stretch:66%;font-size:clamp(56px,13vw,210px);line-height:.85;text-transform:uppercase;letter-spacing:-.03em}
+.band h2 em{font-style:italic;font-weight:300;font-stretch:100%;text-transform:none;color:var(--volt)}
+.band .ctas{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:40px}
+
+/* Footer */
+footer{border-top:1px solid var(--line);padding:40px 0 calc(40px + env(safe-area-inset-bottom));color:var(--muted);font-size:.88rem}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px;align-items:center}
+.foot a:hover{color:var(--paper)}
+.theone{display:inline-flex;align-items:center;gap:8px;color:var(--paper)}
+.theone b{font-family:var(--display);font-weight:800;letter-spacing:-.02em}
+
+/* Mobile sticky bar */
+.mbar{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:60;display:none;gap:8px;padding:8px;background:rgba(18,20,24,.92);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:999px;transform:translateY(140%);transition:transform .5s var(--ease)}
+.mbar.show{transform:none}
+.mbar .btn{flex:1;min-height:46px;padding:0 12px;font-size:.92rem}
+@media (max-width:820px){.mbar{display:flex}footer{padding-bottom:110px}}
+
+/* Reveal */
+.js .rv{opacity:0;transform:translateY(40px)}
+.rm .rv{opacity:1!important;transform:none!important}
+.toast{position:fixed;left:50%;bottom:100px;transform:translate(-50%,20px);opacity:0;background:var(--volt);color:var(--ink);padding:12px 18px;border-radius:999px;font-weight:600;z-index:120;transition:all .4s var(--ease);pointer-events:none}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<script>document.documentElement.classList.add('js');if(matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('rm');</script>
+<div class="grain" aria-hidden="true"></div>
+
+<div class="pre" aria-hidden="true">
+  <div class="pre__v"><span id="volts">000</span><small>V</small></div>
+  <div class="pre__bar"><i id="prebar"></i></div>
+</div>
+
+<header class="nav" id="nav">
+  <a href="#top" class="logo" aria-label="Elektropako, inicio">
+    <svg viewBox="0 0 26 26" aria-hidden="true"><rect width="26" height="26" rx="7" fill="#FFD84A"/><path d="M14.5 4 7 14.5h5L10.5 22 19 11h-5.2z" fill="#0A0B0D"/></svg>
+    Elektropako
+  </a>
+  <nav class="nav__links" aria-label="Secciones">
+    <a href="#cuadro">El cuadro</a><a href="#servicios">Servicios</a><a href="#camper">Camper</a><a href="#presupuesto">Presupuesto</a><a href="#contacto">Contacto</a>
+  </nav>
+  <span class="status" id="status"><i></i><span>Horario</span></span>
+  <a class="btn btn--volt" href="tel:+34630475051">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>
+    Llamar
+  </a>
+</header>
+
+<main id="top">
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero__grid" aria-hidden="true"></div>
+  <div class="hero__spot" aria-hidden="true"></div>
+  <svg class="hero__wire" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <path id="wireBase" d="M-20 610 C 220 610 260 380 520 420 S 860 640 1020 420 S 1140 240 1180 250"/>
+    <path id="wireLive" class="live" d="M-20 610 C 220 610 260 380 520 420 S 860 640 1020 420 S 1140 240 1180 250"/>
+  </svg>
+  <svg class="hero__bulb" id="bulb" viewBox="0 0 200 300" aria-hidden="true">
+    <circle class="bulb-halo" cx="100" cy="100" r="98"/>
+    <path class="bulb-glass" d="M100 18a78 78 0 0 0-46 141c10 8 16 20 16 33v14h60v-14c0-13 6-25 16-33A78 78 0 0 0 100 18z"/>
+    <path class="bulb-fil" d="M82 206v-60l-12-30 15 10 15-22 15 22 15-10-12 30v60"/>
+    <rect x="70" y="210" width="60" height="12" rx="3" fill="#2a2c31"/><rect x="72" y="226" width="56" height="12" rx="3" fill="#2a2c31"/><rect x="80" y="242" width="40" height="14" rx="6" fill="#2a2c31"/>
+  </svg>
+  <div class="wrap" style="width:100%">
+    <div class="hero__eyebrow mono"><span>Electricista · Sevilla</span><span>Empresa instaladora y certificadora</span><span>Av. de la Barzola, 22</span></div>
+    <h1 aria-label="Corriente segura, a la primera.">
+      <span class="ln"><span>Corriente</span></span>
+      <span class="ln"><span>segura,</span></span>
+      <span class="ln"><span><em>a la primera.</em></span></span>
+    </h1>
+    <div class="hero__bottom">
+      <div>
+        <p class="hero__lead">Instalaciones, reparaciones y boletines eléctricos en Sevilla. Y la certificación eléctrica para legalizar la camperización de su furgoneta.</p>
+        <div class="proof"><span class="stars" aria-hidden="true">★★★★★</span><span><strong style="color:var(--paper)">5,0</strong> · 37 reseñas en Google</span></div>
+      </div>
+      <div class="hero__ctas">
+        <a class="btn btn--volt js-wa" href="https://wa.me/34630475051" target="_blank" rel="noopener">Pedir mi presupuesto</a>
+        <a class="btn btn--ghost" href="tel:+34630475051">630 47 50 51</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    <span>Instalaciones</span><span>Reparaciones</span><span>Boletines eléctricos</span><span>Camperización</span><span>Presupuesto sin compromiso</span><span>Sevilla</span>
+    <span>Instalaciones</span><span>Reparaciones</span><span>Boletines eléctricos</span><span>Camperización</span><span>Presupuesto sin compromiso</span><span>Sevilla</span>
+  </div>
+</div>
+
+<!-- CUADRO INTERACTIVO -->
+<section class="sec" id="cuadro">
+  <div class="wrap">
+    <div class="sec__head">
+      <div><span class="mono">01 — El cuadro</span><h2 class="rv">Suba el <em>general.</em></h2></div>
+      <p class="rv">Este es su cuadro eléctrico. Suba el interruptor general y después cada circuito: descubrirá lo que hacemos en cada rincón de la casa. Y pulse «Test», verá lo que pasa cuando salta el diferencial.</p>
+    </div>
+    <div class="panelbox">
+      <div class="house rv" id="house">
+        <svg viewBox="0 0 600 420" role="img" aria-label="Casa con cuatro estancias que se iluminan según los circuitos activados">
+          <defs>
+            <radialGradient id="glow" cx="50%" cy="0%" r="90%"><stop offset="0" stop-color="#FFD84A" stop-opacity=".55"/><stop offset=".6" stop-color="#FFD84A" stop-opacity=".08"/><stop offset="1" stop-color="#FFD84A" stop-opacity="0"/></radialGradient>
+          </defs>
+          <polygon points="40,140 300,30 560,140" fill="#0e1013" stroke="rgba(243,241,234,.3)" stroke-width="2"/>
+          <!-- Salón -->
+          <g class="room" data-room="salon">
+            <rect class="room-bg" x="60" y="140" width="240" height="130"/>
+            <rect class="room-light" x="60" y="140" width="240" height="130" fill="url(#glow)"/>
+            <line x1="262" y1="140" x2="262" y2="156" stroke="#3a3d44" stroke-width="2"/><circle class="lamp" cx="262" cy="162" r="7"/>
+            <path class="ico" d="M100 250v-26a10 10 0 0 1 10-10h90a10 10 0 0 1 10 10v26M92 250h126M110 214v-12h90v12M250 250v-60M238 190h24l-6-18h-12z"/>
+            <text x="74" y="160">Salón</text>
+          </g>
+          <!-- Cocina -->
+          <g class="room" data-room="cocina">
+            <rect class="room-bg" x="300" y="140" width="240" height="130"/>
+            <rect class="room-light" x="300" y="140" width="240" height="130" fill="url(#glow)"/>
+            <line x1="500" y1="140" x2="500" y2="156" stroke="#3a3d44" stroke-width="2"/><circle class="lamp" cx="500" cy="162" r="7"/>
+            <path class="ico" d="M330 250v-40h180v40M330 210h180M360 230h20M390 186h50l-8-14h-34zM350 196v-10M362 196v-10M470 238h14v-14h-14z"/>
+            <text x="314" y="160">Cocina</text>
+          </g>
+          <!-- Local / oficina -->
+          <g class="room" data-room="local">
+            <rect class="room-bg" x="60" y="270" width="240" height="130"/>
+            <rect class="room-light" x="60" y="270" width="240" height="130" fill="url(#glow)"/>
+            <line x1="262" y1="270" x2="262" y2="286" stroke="#3a3d44" stroke-width="2"/><circle class="lamp" cx="262" cy="292" r="7"/>
+            <path class="ico" d="M90 380h150M110 380v-40h110v40M140 340v-26h50v26M232 380v-58h40v58M240 334h24M240 346h24M240 358h24"/>
+            <text x="74" y="290">Local / oficina</text>
+          </g>
+          <!-- Garaje -->
+          <g class="room" data-room="garaje">
+            <rect class="room-bg" x="300" y="270" width="240" height="130"/>
+            <rect class="room-light" x="300" y="270" width="240" height="130" fill="url(#glow)"/>
+            <line x1="500" y1="270" x2="500" y2="286" stroke="#3a3d44" stroke-width="2"/><circle class="lamp" cx="500" cy="292" r="7"/>
+            <path class="ico" d="M330 372v-36a8 8 0 0 1 8-8h110l30 22h20a6 6 0 0 1 6 6v16zM338 336h40v14h-40zM388 336h40v14h-40zM448 330l22 18M356 386a10 10 0 1 0 0-.1M476 386a10 10 0 1 0 0-.1M350 318h80v6h-80z"/>
+            <text x="314" y="290">Garaje · camper</text>
+          </g>
+          <rect class="house-frame" x="60" y="140" width="480" height="260"/>
+          <line x1="300" y1="140" x2="300" y2="400" stroke="rgba(243,241,234,.3)" stroke-width="2"/>
+          <line x1="60" y1="270" x2="540" y2="270" stroke="rgba(243,241,234,.3)" stroke-width="2"/>
+          <line x1="20" y1="400" x2="580" y2="400" stroke="rgba(243,241,234,.3)" stroke-width="2"/>
+        </svg>
+        <span class="house__hint mono" id="houseHint">Casa a oscuras · suba el general</span>
+      </div>
+
+      <div class="cuadro rv">
+        <div class="cuadro__top"><span class="mono">Cuadro general</span><span class="mono" id="cuadroState">0 / 4 circuitos</span></div>
+        <div class="rail" role="group" aria-label="Interruptores del cuadro eléctrico">
+          <div class="brk brk--main" role="switch" aria-checked="false" tabindex="0" data-brk="main" aria-label="Interruptor general">
+            <div class="brk__body"><span class="brk__led"></span><div class="brk__slot"><div class="brk__lever"></div></div></div><span class="brk__lbl">General</span>
+          </div>
+          <div class="brk" role="switch" aria-checked="false" tabindex="0" data-brk="salon" aria-label="Circuito salón">
+            <div class="brk__body"><span class="brk__led"></span><div class="brk__slot"><div class="brk__lever"></div></div></div><span class="brk__lbl">Salón</span>
+          </div>
+          <div class="brk" role="switch" aria-checked="false" tabindex="0" data-brk="cocina" aria-label="Circuito cocina">
+            <div class="brk__body"><span class="brk__led"></span><div class="brk__slot"><div class="brk__lever"></div></div></div><span class="brk__lbl">Cocina</span>
+          </div>
+          <div class="brk" role="switch" aria-checked="false" tabindex="0" data-brk="local" aria-label="Circuito local u oficina">
+            <div class="brk__body"><span class="brk__led"></span><div class="brk__slot"><div class="brk__lever"></div></div></div><span class="brk__lbl">Local</span>
+          </div>
+          <div class="brk" role="switch" aria-checked="false" tabindex="0" data-brk="garaje" aria-label="Circuito garaje">
+            <div class="brk__body"><span class="brk__led"></span><div class="brk__slot"><div class="brk__lever"></div></div></div><span class="brk__lbl">Garaje</span>
+          </div>
+          <div class="brk brk--test">
+            <div class="brk__body"><button class="testbtn" id="testBtn" aria-label="Probar el diferencial">TEST</button></div><span class="brk__lbl">Difer.</span>
+          </div>
+        </div>
+        <div class="info" id="info" aria-live="polite">
+          <span class="mono">Esperando corriente…</span>
+          <h3>Todo apagado</h3>
+          <p>Suba el interruptor general (el rojo). Sin él, ningún circuito funciona, igual que en su casa.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICIOS -->
+<section class="sec" id="servicios" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec__head">
+      <div><span class="mono">02 — Servicios</span><h2 class="rv">Del enchufe <em>al boletín.</em></h2></div>
+      <p class="rv">Una sola empresa que instala, repara y certifica. Usted explica el problema, nosotros le damos un presupuesto claro y sin compromiso.</p>
+    </div>
+    <div class="svc">
+      <a class="svc__item rv js-wa" data-msg="Hola Elektropako, necesito una instalación eléctrica." href="https://wa.me/34630475051" target="_blank" rel="noopener">
+        <span class="svc__n">/01</span><span class="svc__t">Instalaciones</span><span class="svc__d">Viviendas, locales y oficinas: puntos de luz, enchufes, cuadros y reformas eléctricas.</span><span class="svc__a" aria-hidden="true">→</span>
+      </a>
+      <a class="svc__item rv js-wa" data-msg="Hola Elektropako, tengo una avería eléctrica." href="https://wa.me/34630475051" target="_blank" rel="noopener">
+        <span class="svc__n">/02</span><span class="svc__t">Reparaciones</span><span class="svc__d">Salta el diferencial, un enchufe no funciona, un cortocircuito: localizamos la avería y la resolvemos.</span><span class="svc__a" aria-hidden="true">→</span>
+      </a>
+      <a class="svc__item rv js-wa" data-msg="Hola Elektropako, necesito un boletín / certificado eléctrico." href="https://wa.me/34630475051" target="_blank" rel="noopener">
+        <span class="svc__n">/03</span><span class="svc__t">Boletines y certificados</span><span class="svc__d">Certificados eléctricos oficiales para dar de alta la luz, cambiar de titular o ampliar potencia.</span><span class="svc__a" aria-hidden="true">→</span>
+      </a>
+      <a class="svc__item rv" href="#camper">
+        <span class="svc__n">/04</span><span class="svc__t">Camperización</span><span class="svc__d">Certificación eléctrica especial para legalizar la instalación de su furgoneta camper.</span><span class="svc__a" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CAMPER -->
+<section class="sec camper" id="camper">
+  <div class="wrap">
+    <div class="sec__head">
+      <div><span class="mono">03 — Camperización</span><h2 class="rv">Su furgo, <em>en regla.</em></h2></div>
+      <p class="rv">¿Ha camperizado su furgoneta? Marque lo que lleva instalado: le preparamos el mensaje para pedir la certificación eléctrica, sin tener que explicar nada dos veces.</p>
+    </div>
+    <div class="vanbox">
+      <div class="van rv">
+        <svg viewBox="0 0 640 300" role="img" aria-label="Furgoneta camper con los elementos eléctricos seleccionados iluminados">
+          <!-- solar -->
+          <g class="part" data-part="solar"><rect x="150" y="38" width="250" height="16" rx="3" fill="#1f3a5c"/><path d="M180 38v16M212 38v16M244 38v16M276 38v16M308 38v16M340 38v16M372 38v16" stroke="#7fa4cc" stroke-width="1.5"/><path d="M170 54v10M380 54v10" stroke="#0A0B0D" stroke-width="3"/></g>
+          <path class="body" d="M60 230V100c0-18 14-32 32-32h380c14 0 26 7 33 19l55 88c4 6 6 13 6 20v35z"/>
+          <path class="glass" d="M478 90l48 78h-70V90z"/>
+          <rect class="glass" x="110" y="96" width="120" height="52" rx="8"/>
+          <path d="M60 196h526" stroke="#0A0B0D" stroke-width="2"/>
+          <path d="M420 96v134" stroke="#0A0B0D" stroke-width="2"/>
+          <!-- battery -->
+          <g class="part" data-part="bateria"><rect x="250" y="168" width="64" height="40" rx="5" fill="#0A0B0D"/><rect x="260" y="160" width="10" height="8" fill="#0A0B0D"/><rect x="294" y="160" width="10" height="8" fill="#0A0B0D"/><path d="M276 188h14M283 181v14" stroke="#FFD84A" stroke-width="3"/></g>
+          <!-- inverter -->
+          <g class="part" data-part="inversor"><rect x="330" y="170" width="54" height="36" rx="5" fill="#D97B3C"/><path d="M340 188q6-10 12 0t12 0t12 0" fill="none" stroke="#0A0B0D" stroke-width="2.5"/></g>
+          <!-- outlets -->
+          <g class="part" data-part="enchufes"><rect x="260" y="108" width="34" height="34" rx="6" fill="#fff" stroke="#0A0B0D" stroke-width="2"/><circle cx="271" cy="125" r="3" fill="#0A0B0D"/><circle cx="283" cy="125" r="3" fill="#0A0B0D"/><rect x="304" y="108" width="34" height="34" rx="6" fill="#fff" stroke="#0A0B0D" stroke-width="2"/><circle cx="315" cy="125" r="3" fill="#0A0B0D"/><circle cx="327" cy="125" r="3" fill="#0A0B0D"/></g>
+          <!-- exterior socket -->
+          <g class="part" data-part="toma"><rect x="66" y="150" width="30" height="34" rx="5" fill="#2B5FD9"/><circle cx="81" cy="167" r="9" fill="none" stroke="#fff" stroke-width="2"/></g>
+          <!-- dc-dc -->
+          <g class="part" data-part="dcdc"><rect x="440" y="176" width="44" height="30" rx="5" fill="#46E08A"/><text x="462" y="196" text-anchor="middle" font-family="JetBrains Mono" font-size="11" font-weight="600" fill="#0A0B0D">DC</text></g>
+          <!-- led -->
+          <g class="part" data-part="led"><path d="M110 80h300" stroke="#FFD84A" stroke-width="5" stroke-linecap="round"/><path d="M110 80h300" stroke="#FFD84A" stroke-width="14" stroke-linecap="round" opacity=".25"/></g>
+          <!-- cables -->
+          <path class="cable" data-cable="solar" d="M380 60 v40 h-90 v60"/>
+          <path class="cable" data-cable="inversor" d="M314 190 h16"/>
+          <path class="cable" data-cable="enchufes" d="M357 170 v-45 h-19"/>
+          <path class="cable" data-cable="toma" d="M96 167 h60 v24 h94"/>
+          <path class="cable" data-cable="dcdc" d="M440 190 h-56 M440 214 h-150 v-6"/>
+          <path class="cable" data-cable="led" d="M282 168 v-20 h-30 v-62"/>
+          <circle class="wheel" cx="150" cy="232" r="34"/><circle class="hub" cx="150" cy="232" r="13"/>
+          <circle class="wheel" cx="490" cy="232" r="34"/><circle class="hub" cx="490" cy="232" r="13"/>
+          <line x1="20" y1="268" x2="620" y2="268" stroke="#0A0B0D" stroke-width="2"/>
+        </svg>
+        <span class="van__legend mono" id="vanCount">0 elementos marcados</span>
+      </div>
+      <div>
+        <div class="opts" id="opts">
+          <button class="opt" aria-pressed="false" data-part="solar" data-label="Placa solar"><span><b>Placa solar</b><small>En el techo, con regulador</small></span><i>+</i></button>
+          <button class="opt" aria-pressed="false" data-part="bateria" data-label="Batería auxiliar"><span><b>Batería auxiliar</b><small>Litio, AGM o gel</small></span><i>+</i></button>
+          <button class="opt" aria-pressed="false" data-part="inversor" data-label="Inversor 12 V → 230 V"><span><b>Inversor 230 V</b><small>Para usar aparatos de casa</small></span><i>+</i></button>
+          <button class="opt" aria-pressed="false" data-part="enchufes" data-label="Enchufes interiores"><span><b>Enchufes interiores</b><small>230 V y/o USB</small></span><i>+</i></button>
+          <button class="opt" aria-pressed="false" data-part="toma" data-label="Toma exterior de camping"><span><b>Toma exterior</b><small>Conexión a red de camping</small></span><i>+</i></button>
+          <button class="opt" aria-pressed="false" data-part="dcdc" data-label="Cargador DC-DC (alternador)"><span><b>Cargador DC-DC</b><small>Carga desde el alternador</small></span><i>+</i></button>
+          <button class="opt" aria-pressed="false" data-part="led" data-label="Iluminación LED"><span><b>Iluminación LED</b><small>Tiras y focos interiores</small></span><i>+</i></button>
+        </div>
+        <div class="vansum" id="vanSum">Marque al menos un elemento para preparar su solicitud.</div>
+        <a class="btn btn--volt" id="vanWa" href="https://wa.me/34630475051" target="_blank" rel="noopener">Pedir mi certificación por WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESO -->
+<section class="sec" id="proceso">
+  <div class="wrap">
+    <div class="sec__head">
+      <div><span class="mono">04 — Cómo trabajamos</span><h2 class="rv">Cuatro pasos, <em>sin chispas.</em></h2></div>
+      <p class="rv">Sin letra pequeña: usted sabe lo que se va a hacer y cuánto cuesta antes de que empecemos.</p>
+    </div>
+    <div class="steps" id="steps">
+      <div class="steps__wire" aria-hidden="true"><i id="stepsWire"></i></div>
+      <div class="step rv"><span class="mono">Paso 1</span><h3>Nos cuenta</h3><p>Por teléfono o WhatsApp. Una foto del cuadro o de la avería nos ayuda mucho.</p></div>
+      <div class="step rv"><span class="mono">Paso 2</span><h3>Presupuesto</h3><p>Le enviamos un presupuesto claro y sin compromiso.</p></div>
+      <div class="step rv"><span class="mono">Paso 3</span><h3>Intervención</h3><p>Instalamos o reparamos, dejando la zona de trabajo limpia.</p></div>
+      <div class="step rv"><span class="mono">Paso 4</span><h3>Certificado</h3><p>Cuando hace falta, le entregamos el boletín o certificado oficial.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- RESEÑAS -->
+<section class="sec" id="resenas" style="padding-top:0">
+  <div class="wrap">
+    <div class="rating rv">
+      <div class="rating__big"><span id="rateNum">5,0</span><small>/5</small></div>
+      <div>
+        <span class="stars" aria-hidden="true">★★★★★</span>
+        <h3>37 clientes ya lo han dicho en Google.</h3>
+        <p>Una puntuación perfecta en Google. Léalas usted mismo antes de llamarnos, y si quedó contento con nuestro trabajo, su reseña nos ayuda mucho.</p>
+        <a class="btn btn--ghost" href="https://www.google.com/maps/search/?api=1&query=Elektropako%20Av.%20de%20la%20Barzola%2022%20Sevilla" target="_blank" rel="noopener">Ver las reseñas en Google</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRESUPUESTO EXPRESS -->
+<section class="sec" id="presupuesto" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec__head">
+      <div><span class="mono">05 — Presupuesto express</span><h2 class="rv">Tres clics, <em>un mensaje.</em></h2></div>
+      <p class="rv">Elija lo que necesita y le dejamos el mensaje escrito. Solo tiene que pulsar enviar, y adjuntar una foto si puede.</p>
+    </div>
+    <div class="qb">
+      <div class="qb__card rv">
+        <fieldset><legend>¿Qué necesita?</legend>
+          <div class="chips" data-group="tipo">
+            <button class="chip" aria-pressed="true" data-v="una reparación / avería">Avería</button>
+            <button class="chip" aria-pressed="false" data-v="una instalación nueva">Instalación</button>
+            <button class="chip" aria-pressed="false" data-v="un boletín / certificado eléctrico">Boletín</button>
+            <button class="chip" aria-pressed="false" data-v="la certificación eléctrica de mi camper">Camper</button>
+          </div>
+        </fieldset>
+        <fieldset><legend>¿Dónde?</legend>
+          <div class="chips" data-group="lugar">
+            <button class="chip" aria-pressed="true" data-v="vivienda">Vivienda</button>
+            <button class="chip" aria-pressed="false" data-v="local / negocio">Local</button>
+            <button class="chip" aria-pressed="false" data-v="oficina">Oficina</button>
+            <button class="chip" aria-pressed="false" data-v="furgoneta">Furgoneta</button>
+          </div>
+        </fieldset>
+        <fieldset><legend>¿Para cuándo?</legend>
+          <div class="chips" data-group="cuando">
+            <button class="chip" aria-pressed="false" data-v="lo antes posible">Cuanto antes</button>
+            <button class="chip" aria-pressed="true" data-v="esta semana">Esta semana</button>
+            <button class="chip" aria-pressed="false" data-v="sin prisa">Sin prisa</button>
+          </div>
+        </fieldset>
+        <fieldset style="margin-bottom:0"><legend>Detalles (opcional)</legend>
+          <label class="sr" for="qbNote" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Detalles</label>
+          <textarea id="qbNote" placeholder="Ej.: salta el diferencial al encender el horno"></textarea>
+        </fieldset>
+      </div>
+      <div class="qb__card rv">
+        <div class="preview" id="qbPreview"></div>
+        <a class="btn btn--volt" id="qbWa" href="https://wa.me/34630475051" target="_blank" rel="noopener">Enviar por WhatsApp</a>
+        <div class="qb__alt">
+          <a class="btn btn--ghost" href="tel:+34630475051">Prefiero llamar</a>
+          <button class="btn btn--ghost" id="qbCopy">Copiar el texto</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec faq" id="faq" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec__head">
+      <div><span class="mono">06 — Bueno saber</span><h2 class="rv">Preguntas <em>frecuentes.</em></h2></div>
+    </div>
+    <details class="rv"><summary>¿El presupuesto tiene algún coste?<span aria-hidden="true">+</span></summary><p class="ans">No. Los presupuestos son sin compromiso: usted decide después de saber exactamente lo que se va a hacer.</p></details>
+    <details class="rv"><summary>¿Hacen boletines para dar de alta la luz o subir potencia?<span aria-hidden="true">+</span></summary><p class="ans">Sí. Somos empresa instaladora y certificadora: revisamos la instalación y emitimos el certificado eléctrico oficial que le pide la distribuidora.</p></details>
+    <details class="rv"><summary>¿Certifican la instalación eléctrica de una camper?<span aria-hidden="true">+</span></summary><p class="ans">Sí, es una de nuestras especialidades. Marque sus elementos en la sección <a href="#camper" style="color:var(--volt)">Camperización</a> y envíenos el mensaje: le diremos qué necesita su furgoneta.</p></details>
+    <details class="rv"><summary>¿Puedo enviarles fotos de la avería?<span aria-hidden="true">+</span></summary><p class="ans">Por supuesto, y se lo recomendamos. Una foto del cuadro o del enchufe por WhatsApp nos permite orientarle más rápido.</p></details>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section class="sec" id="contacto" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec__head">
+      <div><span class="mono">07 — Contacto</span><h2 class="rv">Estamos <em>en Sevilla.</em></h2></div>
+    </div>
+    <div class="infos">
+      <dl class="rv">
+        <div><dt>Dirección</dt><dd>Av. de la Barzola, 22<br>41008 Sevilla <button class="copy" data-copy="Av. de la Barzola, 22, 41008 Sevilla">Copiar</button></dd></div>
+        <div><dt>Teléfono / WhatsApp</dt><dd><a href="tel:+34630475051">+34 630 47 50 51</a> <button class="copy" data-copy="+34 630 47 50 51">Copiar</button></dd></div>
+        <div><dt>Horario</dt><dd>Lunes a viernes · 09:00 – 15:00<span class="tbc">por confirmar</span></dd></div>
+        <div><dt>Ahora mismo</dt><dd><span class="status" id="status2" style="font-size:.85rem"><i></i><span>—</span></span></dd></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a class="btn btn--volt" href="https://www.google.com/maps/dir/?api=1&destination=Av.%20de%20la%20Barzola%2022%2C%2041008%20Sevilla" target="_blank" rel="noopener">Cómo llegar</a>
+          <a class="btn btn--ghost" href="tel:+34630475051">Llamar</a>
+        </div>
+      </dl>
+      <div class="map rv">
+        <iframe title="Mapa: Elektropako, Av. de la Barzola 22, Sevilla" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Av.+de+la+Barzola+22,+41008+Sevilla&output=embed"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <h2 class="rv">¿Se fue <em>la luz?</em></h2>
+    <div class="ctas">
+      <a class="btn btn--volt js-wa" href="https://wa.me/34630475051" target="_blank" rel="noopener">Escribir por WhatsApp</a>
+      <a class="btn btn--ghost" href="tel:+34630475051">Llamar al 630 47 50 51</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>© <span id="yr">2026</span> Elektropako · Empresa instaladora y certificadora · Av. de la Barzola, 22, 41008 Sevilla</span>
+    <a class="theone" href="https://the-one-studio-ten.vercel.app" target="_blank" rel="noopener">Web creada por <b>The One</b> ↗</a>
+  </div>
+</footer>
+
+<div class="mbar" id="mbar">
+  <a class="btn btn--ghost" href="tel:+34630475051">Llamar</a>
+  <a class="btn btn--volt js-wa" href="https://wa.me/34630475051" target="_blank" rel="noopener">WhatsApp</a>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(()=>{
+const WA='34630475051', $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const RM=document.documentElement.classList.contains('rm');
+const waURL=t=>`https://wa.me/${WA}?text=${encodeURIComponent(t)}`;
+const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),1800)};
+$('#yr').textContent=new Date().getFullYear();
+
+// WhatsApp links with default message
+$$('.js-wa').forEach(a=>a.href=waURL(a.dataset.msg||'Hola Elektropako, me gustaría pedir un presupuesto.'));
+
+// Copy
+const copy=t=>{(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast('Copiado'),()=>toast(t))};
+$$('.copy').forEach(b=>b.addEventListener('click',()=>copy(b.dataset.copy)));
+
+// Open / closed (Europe/Madrid, L-V 9-15 — por confirmar)
+(function(){
+  const p=Object.fromEntries(new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Madrid',weekday:'short',hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(new Date()).map(x=>[x.type,x.value]));
+  const d=p.weekday, m=(+p.hour)*60+(+p.minute), wk=!['Sat','Sun'].includes(d), open=wk&&m>=540&&m<900;
+  let txt=open?'Abierto · cierra a las 15:00':(wk&&m<540?'Cerrado · abre hoy a las 09:00':(['Fri','Sat'].includes(d)||(d==='Sun')?'Cerrado · abre el lunes a las 09:00':'Cerrado · abre mañana a las 09:00'));
+  ['#status','#status2'].forEach(s=>{const el=$(s);el.classList.add(open?'open':'closed');el.querySelector('span').textContent=txt});
+})();
+
+// Hero spotlight
+const hero=$('#hero');
+if(matchMedia('(pointer:fine)').matches) hero.addEventListener('pointermove',e=>{const r=hero.getBoundingClientRect();hero.style.setProperty('--mx',(e.clientX-r.left)+'px');hero.style.setProperty('--my',(e.clientY-r.top)+'px')});
+
+// Nav solid + mobile bar
+const nav=$('#nav'), mbar=$('#mbar');
+const onScroll=()=>{const y=scrollY;nav.classList.toggle('is-solid',y>40);mbar.classList.toggle('show',y>innerHeight*.7)};
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+// ===== CUADRO =====
+const rooms={
+  salon:{t:'Instalaciones',k:'Circuito salón · alumbrado',d:'Puntos de luz, enchufes nuevos, iluminación y reformas eléctricas completas para su vivienda.',m:'Hola Elektropako, necesito una instalación eléctrica en mi vivienda.'},
+  cocina:{t:'Reparaciones',k:'Circuito cocina · fuerza',d:'Horno, vitro, enchufes que no van o un circuito que salta: localizamos la avería y la reparamos.',m:'Hola Elektropako, tengo una avería eléctrica en la cocina.'},
+  local:{t:'Boletines',k:'Circuito local · certificado',d:'Certificados eléctricos oficiales para abrir un local, dar de alta la luz o ampliar potencia.',m:'Hola Elektropako, necesito un boletín eléctrico para un local / oficina.'},
+  garaje:{t:'Camperización',k:'Circuito garaje · furgoneta',d:'Certificación eléctrica especial para legalizar la instalación de su furgoneta camper.',m:'Hola Elektropako, quiero certificar la instalación eléctrica de mi camper.'}
+};
+let main=false; const state={salon:false,cocina:false,local:false,garaje:false};
+const info=$('#info'), house=$('#house'), hint=$('#houseHint');
+const setInfo=(k,t,d,link)=>{info.innerHTML=`<span class="mono">${k}</span><h3>${t}</h3><p>${d}</p>${link?`<a href="${link}" target="_blank" rel="noopener">Pedir presupuesto →</a>`:''}`;
+  if(!RM&&window.gsap) gsap.fromTo(info.children,{y:14,opacity:0},{y:0,opacity:1,duration:.5,stagger:.05,ease:'expo.out'})};
+const render=()=>{
+  Object.keys(state).forEach(r=>{$(`.room[data-room="${r}"]`).classList.toggle('on',main&&state[r]);$(`.brk[data-brk="${r}"]`).setAttribute('aria-checked',state[r])});
+  $('.brk--main').setAttribute('aria-checked',main);
+  const n=Object.values(state).filter(Boolean).length;
+  $('#cuadroState').textContent=`${main?n:0} / 4 circuitos`;
+  hint.textContent=!main?'Casa a oscuras · suba el general':n===4?'Todo encendido · como debe ser':'Ahora suba los circuitos';
+};
+const flip=key=>{
+  if(key==='main'){main=!main;render();
+    main?setInfo('General · ON','Corriente lista','Ahora suba los circuitos uno a uno: cada estancia le muestra un servicio.'):setInfo('General · OFF','Todo apagado','Suba el interruptor general (el rojo). Sin él, ningún circuito funciona, igual que en su casa.');return}
+  state[key]=!state[key];render();
+  if(!main){setInfo('Sin corriente','Primero el general','El circuito está subido, pero sin el interruptor general no llega la corriente.');return}
+  const r=rooms[key];
+  state[key]?setInfo(r.k,r.t,r.d,waURL(r.m)):setInfo('Circuito apagado','Estancia a oscuras','Vuelva a subirlo cuando quiera.');
+};
+$$('.brk[role="switch"]').forEach(b=>{b.addEventListener('click',()=>flip(b.dataset.brk));b.addEventListener('keydown',e=>{if(e.key===' '||e.key==='Enter'){e.preventDefault();flip(b.dataset.brk)}})});
+$('#testBtn').addEventListener('click',()=>{
+  const was=main; main=false;render();house.classList.remove('trip');void house.offsetWidth;house.classList.add('trip');
+  setInfo('¡Ha saltado el diferencial!','Así le protege',(was?'Ha cortado la corriente en un instante. ':'')+'Si en su casa salta solo y no vuelve a subir, puede haber una derivación. No lo fuerce: llámenos y lo revisamos.',waURL('Hola Elektropako, me salta el diferencial y no consigo subirlo.'));
+});
+
+// ===== CAMPER =====
+const sel=new Set();
+const upVan=()=>{
+  $$('.van .part').forEach(p=>p.classList.toggle('on',sel.has(p.dataset.part)));
+  $$('.van .cable').forEach(c=>c.classList.toggle('on',sel.has(c.dataset.cable)));
+  const labels=$$('.opt').filter(o=>sel.has(o.dataset.part)).map(o=>o.dataset.label);
+  $('#vanCount').textContent=`${labels.length} elemento${labels.length===1?'':'s'} marcado${labels.length===1?'':'s'}`;
+  $('#vanSum').innerHTML=labels.length?`<strong>Su instalación:</strong> ${labels.join(' · ')}`:'Marque al menos un elemento para preparar su solicitud.';
+  const msg=labels.length?`Hola Elektropako, quiero la certificación eléctrica de mi furgoneta camper. Lleva instalado:\n- ${labels.join('\n- ')}\n¿Me pueden dar presupuesto?`:'Hola Elektropako, quiero certificar la instalación eléctrica de mi camper.';
+  $('#vanWa').href=waURL(msg);
+};
+$$('.opt').forEach(o=>o.addEventListener('click',()=>{const k=o.dataset.part;sel.has(k)?sel.delete(k):sel.add(k);o.setAttribute('aria-pressed',sel.has(k));upVan();
+  if(!RM&&window.gsap&&sel.has(k)) gsap.fromTo(`.van .part[data-part="${k}"]`,{scale:.85},{scale:1,duration:.6,ease:'back.out(2.5)'})}));
+upVan();
+
+// ===== QUOTE BUILDER =====
+const picks={tipo:'una reparación / avería',lugar:'vivienda',cuando:'esta semana'};
+const upQ=()=>{
+  const note=$('#qbNote').value.trim();
+  const t=`Hola Elektropako, necesito ${picks.tipo} en ${picks.lugar==='furgoneta'?'mi furgoneta':'una '+picks.lugar}, ${picks.cuando}.${note?'\n'+note:''}\n¿Me pueden dar presupuesto? Gracias.`;
+  $('#qbPreview').textContent=t;$('#qbWa').href=waURL(t);return t;
+};
+$$('.chips').forEach(g=>g.addEventListener('click',e=>{const c=e.target.closest('.chip');if(!c)return;
+  g.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed',x===c));picks[g.dataset.group]=c.dataset.v;upQ()}));
+$('#qbNote').addEventListener('input',upQ);
+$('#qbCopy').addEventListener('click',()=>copy(upQ()));
+upQ();
+
+// ===== MOTION =====
+const bulb=$('#bulb'), live=$('#wireLive');
+const L=live.getTotalLength(); live.style.strokeDasharray=L; live.style.strokeDashoffset=L;
+const intro=()=>{
+  if(RM||!window.gsap){live.style.strokeDashoffset=0;bulb.classList.add('lit');return}
+  const tl=gsap.timeline();
+  tl.from('.hero h1 .ln > span',{yPercent:110,duration:1.1,stagger:.09,ease:'expo.out'})
+    .from('.hero__eyebrow > *, .hero__bottom > *',{y:24,opacity:0,duration:.8,stagger:.06,ease:'expo.out'},'-=.7')
+    .to(live,{strokeDashoffset:0,duration:1.6,ease:'power2.inOut'},'-=1')
+    .add(()=>bulb.classList.add('lit'),'-=.1');
+};
+const pre=$('.pre');
+const startPre=()=>{
+  if(RM||!window.gsap){pre.remove();intro();return}
+  const o={v:0};
+  gsap.to(o,{v:230,duration:1.1,ease:'power2.out',onUpdate:()=>{$('#volts').textContent=String(Math.round(o.v)).padStart(3,'0');$('#prebar').style.width=(o.v/230*100)+'%'},
+    onComplete:()=>gsap.to(pre,{yPercent:-100,duration:.8,ease:'expo.inOut',delay:.1,onComplete:()=>pre.remove()})});
+  gsap.delayedCall(1.35,intro);
+};
+
+if(window.gsap&&window.ScrollTrigger&&!RM){
+  gsap.registerPlugin(ScrollTrigger);
+  if(window.Lenis){const lenis=new Lenis({lerp:.1});lenis.on('scroll',ScrollTrigger.update);gsap.ticker.add(t=>lenis.raf(t*1000));gsap.ticker.lagSmoothing(0);
+    $$('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const t=$(a.getAttribute('href'));if(t){e.preventDefault();lenis.scrollTo(t,{offset:-70})}}))}
+  $$('.rv').forEach(el=>gsap.to(el,{opacity:1,y:0,duration:1,ease:'expo.out',scrollTrigger:{trigger:el,start:'top 88%'}}));
+  const mobile=matchMedia('(max-width:820px)').matches;
+  gsap.to('#stepsWire',{[mobile?'scaleY':'scaleX']:1,ease:'none',scrollTrigger:{trigger:'#steps',start:'top 75%',end:'bottom 60%',scrub:true}});
+  gsap.to('.hero__bulb',{yPercent:30,ease:'none',scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:true}});
+  // magnetic buttons
+  if(matchMedia('(pointer:fine)').matches) $$('.btn--volt').forEach(b=>{
+    b.addEventListener('pointermove',e=>{const r=b.getBoundingClientRect();gsap.to(b,{x:(e.clientX-r.left-r.width/2)*.25,y:(e.clientY-r.top-r.height/2)*.35,duration:.4,ease:'power3.out'})});
+    b.addEventListener('pointerleave',()=>gsap.to(b,{x:0,y:0,duration:.6,ease:'elastic.out(1,.4)'}));
+  });
+}else{
+  $$('.rv').forEach(el=>{el.style.opacity=1;el.style.transform='none'});
+  $('#stepsWire').style.transform='none';
+}
+startPre();
+// marquee pause off-screen
+const mq=$('.marquee__track');new IntersectionObserver(([e])=>mq.style.animationPlayState=e.isIntersecting?'running':'paused').observe(mq);
+})();
+</script>
+</body>
+</html>
